@@ -49,12 +49,7 @@ file_handle = open("/Users/Sam/phdthesis/data/survey.dat")
 
 ## Software that makes your research more impactful
 
-Open source, quality research software means a research that is more
-
-- visible
-- credible
-- reusable
-- ... citable!
+Open source, quality research software increases credibility and visibility of research.
 
 # Hurdles in the way of improving software quality
 
@@ -66,11 +61,11 @@ Open source, quality research software means a research that is more
 # It's not as difficult as you might think!
 
 There are simple steps you can take today
-- Choose descriptive names for variables and functions
-- Avoid nested logic (for/if/else)
-- Reduce the size of functions' parameter lists
-- Break long functions into smaller functions
-- Follow a style guide
+-   Choose descriptive names for variables and functions
+-   Avoid nested logic (for/if/else)
+-   Reduce the size of functions' parameter lists
+-   Break long functions into smaller functions
+-   Follow a style guide
 
 # Code Smells
 
@@ -79,6 +74,7 @@ There are no hard and fast rules about what makes good software.  A
 hard to understand and work with.
 
 Code smells usually have a name and a clear definition:
-- Long Parameter List
-- Duplicated Code
-- Global Data
+
+-   Long Parameter List
+-   Duplicated Code
+-   Global Data
