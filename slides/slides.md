@@ -73,8 +73,60 @@ There are no hard and fast rules about what makes good software.  A
 *code smell* is a pattern of code that **is likely to** make the code
 hard to understand and work with.
 
-Code smells usually have a name and a clear definition:
+All common code issues are so common that they are actually named (Fowler, 2000):
 
 -   Long Parameter List
 -   Duplicated Code
 -   Global Data
+
+## Which one of these is not a real code smell?
+
+* Large class
+* Feature envy
+* Inappropriate intimacy
+* Angry quiche
+* Freeloader
+* Refused bequest
+
+# How to improve your smell?
+
+## Empathy and writing
+
+* Steven Pinker argues that empathy is key to good academic writing
+* Even if writing solo, you can reduce the empathy gap with readers
+* You can ask a future you if they understand what you mean
+* (Better) you can ask others if they understand
+
+## Empathy and coding
+
+* Writing good software also requires empathy
+* You can also use the same approaches to lower the empathy gap
+* Repeatedly ask future you what they think about code and refactor
+* (Much much better) you can ask others if they understand
+
+## Coding collaboratively
+
+* There are a number of approaches to working collaboratively
+* Coding in pairs
+* One off code reviews between you and your colleagues
+* (Best) code collaboratively:
+  * Better quality software
+  * You also learn other approaches
+  * Github is a great ground for collaborative development
+
+## Style guides (another way to improve)
+
+## Further exposure
+
+* Reading references:
+* Video references:
+* "Better Codehub" badges on Github: semi-automated checking of software
+* Courses offered by OxRSE (see below)
+
+# Oxford Research Sofware Engineering
+
+* Who are we?
+* What do we offer?
+  * Example projects
+  * Example courses
+* How to get in touch?
