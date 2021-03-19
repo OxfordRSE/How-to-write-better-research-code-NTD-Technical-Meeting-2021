@@ -90,6 +90,12 @@ Code smells are actually named (Fowler, 2000):
 * Freeloader
 * Refused bequest
 
+## Why learn how to smell?
+
+Code smells have well-defined remedies.
+
+Learning to classify code as whiffing of a particular odour means you can apply these.
+
 # Example # 1
 
 ## What does this code do?
@@ -120,7 +126,7 @@ simulate <- function(time_start, time_stop,
 
 ## Tip # 1
 
-"Meet my good friend 'bSty_1800.'"
+"Have you met my good friend 'bSty_1800'?"
 
 ​	Use descriptive variable names.
 
@@ -163,7 +169,7 @@ simulation_parameters <- SimulationParameters(
        is_stochastic=FALSE)
 ```
 
-# Other parameter classes
+## Validity checking
 
 ```R
 check <-function(object) {
@@ -192,7 +198,7 @@ bednet_parameters <- BednetParameters(
         net_coverage = 100)
 ```
 
-# Simulation object
+## Simulation object
 
 ```R
 Simulation <- setClass("Simulation",
@@ -220,6 +226,43 @@ simulation@simulation_parameters
 ​	Check for valid parameter values.
 
 ## Breakout exercise: SIR model
+
+# Example # 2
+
+```R
+process_contact_matrices <- function(c_home, c_school, c_work, c_other)
+{
+    nce <- A - length(c_home[1, ])
+    contact_home <- matrix(0, nrow=A, ncol=A)
+    contact_school <- matrix(0, nrow=A, ncol=A)
+    contact_work <- matrix(0, nrow=A, ncol=A)
+    contact_other <- matrix(0, nrow=A, ncol=A)
+
+    for (i in 1:(A - nce)){
+      for (j in 1:(A - nce)){
+        contact_home[i, j] <- c_home[i, j]
+        contact_school[i, j] <- c_school[i, j]
+        contact_work[i, j] <- c_work[i, j]
+        contact_other[i, j] <- c_other[i, j]
+      }
+    }
+
+    for (i in (A + 1 - nce):A){
+      for (j in 1:(A - nce)){
+        contact_home[i, j] <- c_home[(A - nce), j]
+        contact_school[i, j] <- c_school[(A - nce), j]
+        contact_work[i, j] <- c_work[(A - nce), j]
+        contact_other[i, j] <- c_other[(A - nce), j]
+      }
+    }
+  }
+```
+
+## Rewriting using 
+
+
+
+# How to improve your smell?
 
 # How to improve your smell?
 
