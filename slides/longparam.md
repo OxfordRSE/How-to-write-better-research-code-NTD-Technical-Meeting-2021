@@ -66,8 +66,32 @@
 
 # {data-auto-animate=""}
 
-```{.R .numberLines data-id="code-animation" data-line-numbers="|1|1,13-15"}
-simulate_SIR <- function(init_state, model_parms, solver_parms, Tstart, Tf)
+```{.R .numberLines data-id="group-parameters" data-line-numbers=""}
+  simulate_SIR <- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, method="lsoda", atol=1e-6, rtol=1e-06)
+  {
+      N <- S0 + I0 + R0
+      dxdt <- function(t, y, parms) {
+	  list(
+	      derivatives=c(
+		  dSdt=-beta*y[1]*y[2]/N,
+		  dIdt=beta*y[1]*y[2]/N - gamma*y[2],
+		  dRdt=gamma*y[2]
+	      )
+	  )
+      }
+
+      times = seq(from = 0, to = Tf, by = timestep)
+      ode(c(S0, I0, 0), times, dxdt, method = "lsoda", atol, rtol)
+```
+We group together
+
+- the parameters of the numerical model `beta`, `gamma` and `timestep`)
+- the parameters for the solver (`method`, `atol` and `rtol`)
+
+# {data-auto-animate=""}
+
+```{.R .numberLines data-id="group-parameters" data-line-numbers=""}
+simulate_SIR <- function(<mark>init_state</mark>, model_parms, solver_parms, Tstart, Tf)
 {
   dxdt <- function(t, y, parms) {
 	list(
