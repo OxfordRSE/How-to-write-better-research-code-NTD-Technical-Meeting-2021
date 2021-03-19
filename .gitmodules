@@ -1,3 +1,6 @@
 [submodule "slides/reveal.js"]
 	path = slides/reveal.js
 	url = git@github.com:OxfordRSE/reveal.js.git
+[submodule "slides/lua-filters"]
+	path = slides/lua-filters
+	url = git@github.com:pandoc/lua-filters.git
