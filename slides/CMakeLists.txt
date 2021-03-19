@@ -10,12 +10,15 @@ message(${REVEALJS_DIR})
 set(SLIDES_MD ${SLIDES_DIR}/slides.md)
 set(LONGPARAM_MD ${SLIDES_DIR}/longparam.md)
 set(NESTED_MD ${SLIDES_DIR}/nested.md)
+set(LONGFUNCTION_MD ${SLIDES_DIR}/longfunction.md)
 set(SLIDES_PDF ${SLIDES_DIR}/slides.pdf)
 set(SLIDES_HTML ${SLIDES_DIR}/slides.html)
 set(LONGPARAM_PDF ${SLIDES_DIR}/longparam.pdf)
 set(LONGPARAM_HTML ${SLIDES_DIR}/longparam.html)
 set(NESTED_PDF ${SLIDES_DIR}/nested.pdf)
 set(NESTED_HTML ${SLIDES_DIR}/nested.html)
+set(LONGFUNCTION_PDF ${SLIDES_DIR}/longfunction.pdf)
+set(LONGFUNCTION_HTML ${SLIDES_DIR}/longfunction.html)
 
 add_custom_target(
         revealjs COMMAND
@@ -46,6 +49,19 @@ add_custom_target(
 	-V theme=oxrse
 	-V highlightjs
 	-V highlightjs-theme:zenburn
+	-V width='\"100%\"' -V height='\"100%\"'
+	)
+
+add_custom_target(
+        longfunction COMMAND
+	${PANDOC} ${LONGFUNCTION_MD} -o ${LONGFUNCTION_HTML}
+	-t revealjs 
+	-L ${CMAKE_CURRENT_SOURCE_DIR}/lua-filters/revealjs-codeblock/revealjs-codeblock.lua
+	--template ../lua-filters/revealjs-codeblock/template.html
+	-V revealjs-url=${REVEALJS_DIR}/reveal.js
+	-V theme=oxrse
+	-V highlightjs
+	-V highlightjs-theme:stackoverflow-light
 	-V width='\"100%\"' -V height='\"100%\"'
 	)
       
