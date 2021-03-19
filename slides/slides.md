@@ -69,11 +69,13 @@ There are simple steps you can take today
 
 # Code Smells
 
-There are no hard and fast rules about what makes good software.  A
-*code smell* is a pattern of code that **is likely to** make the code
-hard to understand and work with.
+There are many ways to write good software.
 
-All common code issues are so common that they are actually named (Fowler, 2000):
+There are fewer ways to write bad software.
+
+*Code smells* are recognised patterns of code likely to hinder understanding and make it hard to work with.
+
+Code smells are actually named (Fowler, 2000):
 
 -   Long Parameter List
 -   Duplicated Code
