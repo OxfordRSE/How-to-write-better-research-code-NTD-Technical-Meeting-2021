@@ -10,5 +10,5 @@ Build the slides:
 cd slides
 mkdir build && cd build
 cmake ..
-make revealjs
+make
 ```

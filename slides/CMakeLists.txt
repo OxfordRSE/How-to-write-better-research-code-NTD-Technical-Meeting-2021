@@ -24,6 +24,18 @@ set(LONGFUNCTION_PDF ${SLIDES_DIR}/longfunction.pdf)
 set(LONGFUNCTION_HTML ${SLIDES_DIR}/longfunction.html)
 
 add_custom_target(
+    slides ALL
+    )
+
+add_dependencies(everything
+    revealjs
+    example1
+    longparam
+    nested
+    longfunction
+    )
+    
+add_custom_target(
         revealjs COMMAND
 	${PANDOC} -t revealjs -s ${SLIDES_MD} -V revealjs-url=${REVEALJS_DIR}/reveal.js
 	-V theme=oxrse -o ${SLIDES_HTML}
