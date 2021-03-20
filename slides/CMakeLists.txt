@@ -35,7 +35,7 @@ add_custom_target(
 	-V revealjs-url=${REVEALJS_DIR}/reveal.js
 	-V theme=oxrse
 	-V highlightjs
-	-V highlightjs-theme:zenburn
+	-V highlightjs-theme:stackoverflow-light
 	-V width='\"100%\"' -V height='\"100%\"'
 	)
 
@@ -48,7 +48,7 @@ add_custom_target(
 	-V revealjs-url=${REVEALJS_DIR}/reveal.js
 	-V theme=oxrse
 	-V highlightjs
-	-V highlightjs-theme:zenburn
+	-V highlightjs-theme:stackoverflow-light
 	-V width='\"100%\"' -V height='\"100%\"'
 	)
 
