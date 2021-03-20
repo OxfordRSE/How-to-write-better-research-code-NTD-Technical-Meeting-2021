@@ -227,39 +227,6 @@ simulation@simulation_parameters
 
 ## Breakout exercise: SIR model
 
-# Example # 2
-
-```R
-process_contact_matrices <- function(c_home, c_school, c_work, c_other)
-{
-    nce <- A - length(c_home[1, ])
-    contact_home <- matrix(0, nrow=A, ncol=A)
-    contact_school <- matrix(0, nrow=A, ncol=A)
-    contact_work <- matrix(0, nrow=A, ncol=A)
-    contact_other <- matrix(0, nrow=A, ncol=A)
-
-    for (i in 1:(A - nce)){
-      for (j in 1:(A - nce)){
-        contact_home[i, j] <- c_home[i, j]
-        contact_school[i, j] <- c_school[i, j]
-        contact_work[i, j] <- c_work[i, j]
-        contact_other[i, j] <- c_other[i, j]
-      }
-    }
-
-    for (i in (A + 1 - nce):A){
-      for (j in 1:(A - nce)){
-        contact_home[i, j] <- c_home[(A - nce), j]
-        contact_school[i, j] <- c_school[(A - nce), j]
-        contact_work[i, j] <- c_work[(A - nce), j]
-        contact_other[i, j] <- c_other[(A - nce), j]
-      }
-    }
-  }
-```
-
-## Rewriting using 
-
 
 
 # How to improve your smell?
