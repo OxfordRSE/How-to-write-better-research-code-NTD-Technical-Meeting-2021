@@ -1,6 +1,6 @@
-# Tracking which individuals receive a vaccine
+# Nested logic and complex conditionals {data-auto-animate=""}
 
-```{.R .numberLines}
+```{.R .numberLines data-id="nested-logic" data-line-numbers=""}
 apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     for (individual in population) {
         if (nvaccines > 0) {
@@ -19,11 +19,9 @@ apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
 }
 ```
 
-The nested if/else logic makes it easy to get lost! Let's "flatten" this
+# If you can, return early {data-auto-animate=""}
 
-# Return early
-
-```{.R .numberLines}
+```{.R .numberLines data-id="nested-logic" data-line-numbers="3,12-14"}
 apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     for (individual in population) {
         if (nvaccines > 0) {
@@ -42,9 +40,9 @@ apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
 }
 ```
 
-# Return early
+# If you can, return early {data-auto-animate=""}
 
-```{.R .numberLines data-line-numbers="|3|3,5-11"}
+```{.R .numberLines data-id="nested-logic" data-line-numbers="3|5-11"}
 apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     for (individual in population) {
         if (nvaccines == 0) { return("No more doses") }
@@ -53,16 +51,16 @@ apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
             if (indiv["hasFirstJab"]) {
                 inject_second_jab(indiv)
                 nvaccines <- nvaccines - 1
-            } else {
+            } else {pp
                 inject_first_jab(indiv)
             }
         }
 }
 ```
 
-# Return early (again)
+# If you can, skip early {data-auto-animate=""}
 
-```{.R .numberLines}
+```{.R .numberLines data-id="nested-logic" data-line-numbers="5"}
 apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     for (individual in population) {
         if (nvaccines == 0) { return("No more doses") }
@@ -71,16 +69,34 @@ apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
             if (indiv["hasFirstJab"]) {
                 inject_second_jab(indiv)
                 nvaccines <- nvaccines - 1
-            } else {
+            } else {pp
                 inject_first_jab(indiv)
             }
         }
 }
 ```
 
-# Return early (again)
+# If you can, skip early {data-auto-animate=""}
 
-```{.R .numberLines data-line-numbers="5"}
+```{.R .numberLines data-id="nested-logic" data-line-numbers="5|7-12"}
+apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines == 0) { return("No more doses") }
+ 
+        if (indiv["age"] > threshold_age || indiv["isAtRisk"]) next
+        
+        if (indiv["hasFirstJab"]) {
+            inject_second_jab(indiv)
+            nvaccines <- nvaccines - 1
+        } else {
+            inject_first_jab(indiv)
+        }
+}
+
+```
+# Extract condition in function {data-auto-animate=""}
+
+```{.R .numberLines data-id="nested-logic" data-line-numbers="5"}
 apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     for (individual in population) {
         if (nvaccines == 0) { return("No more doses") }
@@ -95,27 +111,10 @@ apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
         }
 }
 ```
-# Extract condition in function
 
-```{.R .numberLines data-line-numbers="|5"}
-apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
-    for (individual in population) {
-        if (nvaccines == 0) { return("No more doses") }
- 
-        if (indiv["age"] > threshold_age || indiv["isAtRisk"]) next
-        
-        if (indiv["hasFirstJab"]) {
-            inject_second_jab(indiv)
-            nvaccines <- nvaccines - 1
-        } else {
-            inject_first_jab(indiv)
-        }
-}
-```
+# Extract condition in function {data-auto-animate=""}
 
-# Extract condition in function
-
-```{.R .numberLines data-line-numbers="|1-4|10"}
+```{.R .numberLines data-line-numbers="1-4,10"}
 eligible_to_vaccine <- function(individual, threshold_age) {
     in_target_age_group = indiv["age"] > threshold_age
     return(in_target_age_group || individual["isAtRisk"])
@@ -136,11 +135,10 @@ apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     }
 ```
 
-# Summary
+# 
 
-:::::::::::::: {.columns}
-::: {.column width="50%"}
-```{.R .numberLines}
+before
+```{.R .numberLines data-id="nested-logic" data-line-numbers=""}
 apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     for (individual in population) {
         if (nvaccines > 0) {
@@ -158,14 +156,8 @@ apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     }
 }
 ```
-:::
-::: {.column width="50%"}
+after
 ```{.R .numberLines}
-eligible_to_vaccine <- function(individual, threshold_age) {
-    in_target_age_group = indiv["age"] > threshold_age
-    return(in_target_age_group || individual["isAtRisk"])
-}
-
 apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     for (individual in population) {
         if (nvaccines == 0) { return("No more doses") }
@@ -181,5 +173,8 @@ apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     }
 }
 ```
-:::
-::::::::::::::
+
+# Recap on complex if/else constructs
+
+- Return/continue early if you can.
+- Extract complex conditions into a new function.
