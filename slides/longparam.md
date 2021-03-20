@@ -175,7 +175,7 @@ simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_ti
 #
 before
 ```{.R .numberLines data-line-numbers=""}
-  simulate_SIR <- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, N, method="lsoda", atol=1e-6, rtol=1e-06)
+simulate_SIR <- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, N, method="lsoda", atol=1e-6, rtol=1e-06)
   {
   dxdt <- function(t, y, parms) {
 	list(
@@ -208,6 +208,15 @@ simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_ti
   ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
 }
 ```
+
+# Recap
+
+A short list of parameters make the scope of a function clearer at first glance.
+
+- Identify parameters that travel together ("data clumps").
+- Group these parameters into a common data structure (vector, list or class).
+- Choose descriptive names.
+- Consider splitting the function into smaller specialized functions.
 
 # Going the extra mile: an `SIR_init_state` class
 

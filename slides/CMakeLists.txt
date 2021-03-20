@@ -52,7 +52,7 @@ add_custom_target(
 	-V theme=oxrse
 	-V highlightjs
 	-V highlightjs-theme:stackoverflow-light
-	-V width='\"100%\"' -V height='\"100%\"'
+	-V width='\"80%\"' -V height='\"100%\"'
 	)
 
 add_custom_target(
