@@ -1,3 +1,35 @@
+# A long function
+
+```{.R .numberLines data-id="extract-function" data-line-numbers=""}
+empirical_incubation_dist  <- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+  # ...
+
+  # prepare column names for transfer
+  exposure      <- rlang::enquo(exposure)
+  date_of_onset <- rlang::enquo(date_of_onset)
+  exposure_end  <- rlang::enquo(exposure_end)
+  end_is_here   <- !is.null(rlang::get_expr(exposure_end))
+
+  # Make sure that all the columns actually exist
+  cols <- c(rlang::quo_text(date_of_onset),
+            rlang::quo_text(exposure),
+            rlang::quo_text(exposure_end))
+  cols <- cols[cols != "NULL"]
+  if (!all(cols %in% names(x))) {
+    msg  <- "%s is not a column in %s"
+    cols <- cols[!cols %in% names(x)]
+    msg  <- sprintf(msg, cols, deparse(substitute(x)))
+    stop(paste(msg, collapse = "\n  "))
+  }
+  
+  # Grab the values from the columns
+  doo   <- dplyr::pull(x, !! date_of_onset)
+  expos <- dplyr::pull(x, !! exposure)
+  
+  # ...
+```
+
 # Extracting a function {data-auto-animate=""}
 
 ```{.R .numberLines data-id="extract-function" data-line-numbers="5-9|11-21"}
@@ -384,33 +416,13 @@ empirical_incubation_dist  <- function(x, date_of_onset, exposure, exposure_end 
 }
 ```
 
-# Summary {data-auto-animate=""}
+# Avoiding long functions {style="position: relative; left: 0px"}
 
-```{.R .numberLines data-id="full-function" data-line-numbers=""}
-empirical_incubation_dist  <- function(x, date_of_onset, exposure, exposure_end = NULL) {
+Think as someone who's looking at the code for the first time.
 
-  check_valid_dataframe(x)
+It must be clear *what* the function does, no matter *how* it does it.
 
-  # prepare column names for transfer
-  exposure      <- rlang::enquo(exposure)
-  date_of_onset <- rlang::enquo(date_of_onset)
-  exposure_end  <- rlang::enquo(exposure_end)
-
-  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
-
-  # Grab the values from the columns
-  doo   <- get_date_of_onset_value(x, !! date_of_onset)
-  expos <- dplyr::pull(x, !! exposure)
-
-  if (end_of_exposure(exposure_end)) expos <- exposure_for_each_date(expos, x)
-
-  y <- compute_incubation(doo, exposure_for_each_date)
-
-  # check if incubation period is below 0
-  if (any(y$incubation_period < 0)) {
-    warning("negative incubation periods in data!")
-  }
-
-  return(y)
-}
-```
+- Look for comments.
+- Extract blocks of logic into separate (nested) functions.
+- Use descriptive function names instead of comments.
+- Extract reusable code!
