@@ -1,4 +1,6 @@
-# Software can be "good" in several ways
+# Quality research software
+
+## Software can be "good" in several ways
 
 -   Performance
 -   Usability
@@ -8,27 +10,23 @@
 
 These metrics don't necessarily go along with each other.
 
-# Software sustainability
+## Firsm aim: sustainable software
 
 Long after the project is "done", it is possible to
 
 -   Compile/install/run the software (**Usability**)
--   Read and understand the source code (**Readability**)
+-   Read and understand the code (**Readability**)
 -   Update the program (**Maintainability**)
--   Reuse all or part of the program in another project (**Reusability**)
+-   Reuse the code/program (**Reusability**)
 
-This applies to both the original author(s) and other researchers.
+This applies to other researchers... and *yourself* in 6 months!
 
-# Software as a research output
+## Software is a research output
 
-Authors can reuse their own code, and colleagues can build upon it.
+It should be poossible to build upon existing research software (**Extensibility**)
 
-For this to be true, we want software that is 
-- **Readable:**
-- **Reusable:**
-- **Extensible:**
+Typical hindrance to reusability and extensibility are hard-coded parameters and file paths and low modularity.
 
-Typical hindrance to reusability and extensibility are hard-coded parameters and file paths, global data and lack of modularity.
 ```python
 file_handle = open("/Users/Sam/phdthesis/data/survey.dat")
 ```
@@ -51,7 +49,7 @@ file_handle = open("/Users/Sam/phdthesis/data/survey.dat")
 
 Open source, quality research software increases credibility and visibility of research.
 
-# Hurdles in the way of improving software quality
+## Hurdles in the way of improving software quality
 
 -   Lack of exposure to good examples.
 -   Too few resources relevant to researchers.
@@ -60,14 +58,18 @@ Open source, quality research software increases credibility and visibility of r
 
 # It's not as difficult as you might think!
 
-There are simple steps you can take today
--   Choose descriptive names for variables and functions
--   Avoid nested logic (for/if/else)
--   Reduce the size of functions' parameter lists
--   Break long functions into smaller functions
--   Follow a style guide
+## Simple approach you can apply today
 
-# Code Smells
+-   Choose descriptive names.
+-   Avoid nested logic (`for`/`if`/`else`).
+-   Reduce the size of functions'parameter lists.
+-   Break long functions into smaller functions.
+-   Follow a style guide.
+
+By keeping these in mind as you code, you can make your software a lot
+better already.
+
+## Code Smells
 
 There are many ways to write good software.
 
@@ -227,10 +229,6 @@ simulation@simulation_parameters
 
 ## Breakout exercise: SIR model
 
-
-
-# How to improve your smell?
-
 # How to improve your smell?
 
 ## Empathy and writing
@@ -266,7 +264,7 @@ simulation@simulation_parameters
 * "Better Codehub" badges on Github: semi-automated checking of software
 * Courses offered by OxRSE (see below)
 
-# Oxford Research Sofware Engineering
+## Oxford Research Sofware Engineering
 
 * Who are we?
 * What do we offer?
