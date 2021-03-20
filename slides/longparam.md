@@ -15,14 +15,15 @@
 	  )
       }
 
-      times = seq(from = 0, to = Tf, by = timestep)
-      ode(c(S0, I0, 0), times, dxdt, method = "lsoda", atol, rtol)    
+      times <- seq(from = 0, to = Tf, by = timestep)
+	  parms <- c(beta=beta, gamma=gamma, N=N)
+      ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
   }
 ```
 
-# {data-auto-animate=""}
+# The population size doesn't have to be passed {data-auto-animate=""}
 
-```{.R .numberLines data-id="code-animation"}
+```{.R .numberLines data-id="redundant-param" data-line-numbers="3"}
   library(deSolve)
 
   simulate_SIR <- function(N, S0, I0, R0, Tstart, Tf, timestep, gamma, beta, method="lsoda", atol=1e-6, rtol=1e-06)
@@ -37,13 +38,15 @@
 	  )
       }
 
-      times = seq(from = 0, to = Tf, by = timestep)
-      ode(c(S0, I0, 0), times, dxdt, method = "lsoda", atol, rtol)
+      times <- seq(from = 0, to = Tf, by = timestep)
+	  parms <- c(beta=beta, gamma=gamma, N=N)
+      ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
   }
 ```
 
-# {data-auto-animate=""}
-```{.R .numberLines data-id="code-animation" data-line-numbers="5"}
+# The population size doesn't have to be passed {data-auto-animate=""}
+
+```{.R .numberLines data-id="redundant-param" data-line-numbers="5"}
   library(deSolve)
 
   simulate_SIR <- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, method="lsoda", atol=1e-6, rtol=1e-06)
@@ -59,18 +62,19 @@
 	  )
       }
 
-      times = seq(from = 0, to = Tf, by = timestep)
-      ode(c(S0, I0, 0), times, dxdt, method = "lsoda", atol, rtol)    
+      times <- seq(from = 0, to = Tf, by = timestep)
+	  parms <- c(beta=beta, gamma=gamma, N=N)
+      ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
   }
 ```
 
-# {data-auto-animate=""}
+# Grouping parameters that travel together {data-auto-animate=""}
 
-```{.R .numberLines data-id="group-parameters" data-line-numbers=""}
-  simulate_SIR <- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, method="lsoda", atol=1e-6, rtol=1e-06)
+```{.R .numberLines data-id="group-parameters" data-line-numbers="1"}
+simulate_SIR <- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, method="lsoda", atol=1e-6, rtol=1e-06)
   {
-      N <- S0 + I0 + R0
-      dxdt <- function(t, y, parms) {
+    N <- S0 + I0 + R0
+    dxdt <- function(t, y, parms) {
 	  list(
 	      derivatives=c(
 		  dSdt=-beta*y[1]*y[2]/N,
@@ -78,20 +82,18 @@
 		  dRdt=gamma*y[2]
 	      )
 	  )
-      }
+	}
 
-      times = seq(from = 0, to = Tf, by = timestep)
-      ode(c(S0, I0, 0), times, dxdt, method = "lsoda", atol, rtol)
+  times <- seq(from = 0, to = Tf, by = timestep)
+  parms <- c(beta=beta, gamma=gamma, N=N)
+  ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
+}
 ```
-We group together
 
-- the parameters of the numerical model `beta`, `gamma` and `timestep`)
-- the parameters for the solver (`method`, `atol` and `rtol`)
+# Grouping parameters that travel together {data-auto-animate=""}
 
-# {data-auto-animate=""}
-
-```{.R .numberLines data-id="group-parameters" data-line-numbers=""}
-simulate_SIR <- function(<mark>init_state</mark>, model_parms, solver_parms, Tstart, Tf)
+```{.R .numberLines data-id="group-parameters" data-line-numbers="1|13|14,15"}
+simulate_SIR <- function(init_state, model_parms, solver_parms, Tstart, Tf)
 {
   dxdt <- function(t, y, parms) {
 	list(
@@ -101,37 +103,53 @@ simulate_SIR <- function(<mark>init_state</mark>, model_parms, solver_parms, Tst
 		dRdt=parms$gamma*y[2]
 	    )
 	)
-    }
+  }
 
-    times = seq(from = Tstar, to = Tf, by = model_parms$timestep)
-    parms = c(model_parms, N=sum(init_state))
-    ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
+  times <- seq(from = Tstar, to = Tf, by = model_parms$timestep)
+  parms <- c(model_parms, N=sum(init_state))
+  ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
 }
 ```
-We group together
-
-- the parameters of the numerical model `beta`, `gamma` and `timestep`)
-- the parameters for the solver (`method`, `atol` and `rtol`)
 
 # A common pattern for all variable names {data-auto-animate=""}
 
-```{.R .numberLines data-id="code-animation" data-line-numbers="1,6,7,13"}
-simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_time)
-    {
-      dxdt <- function(t, y, parms) {
-	    list(
-		derivatives=c(
-		    dSdt=-parms$beta*y[1]*y[2]/parms$population_size,
-		    dIdt=parms$beta*y[1]*y[2]/parms$population_size - parms$gamma*y[2],
-		    dRdt=parms$gamma*y[2]
-		)
+```{.R .numberLines data-id="naming-pattern" data-line-numbers="1,13|6,7"}
+simulate_SIR <- function(init_state, model_parms, solver_parms, Tstart, Tf)
+{
+  dxdt <- function(t, y, parms) {
+    list(
+      derivatives=c(
+        dSdt=-parms$beta*y[1]*y[2]/parms$N,
+        dIdt=parms$beta*y[1]*y[2]/parms$N - parms$gamma*y[2],
+        dRdt=parms$gamma*y[2]
 	    )
-	}
+     )
+  }
 
-	times = seq(from = min_time, to = max_time, by = model_parms$timestep)
-	parms = c(model_parms, population_size=sum(init_state))
-	ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
-    }
+  times <- seq(from = Tstart, to = Tf, by = model_parms$timestep)
+  parms <- c(model_parms, N=sum(init_state))
+  ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
+}
+```
+# A common pattern for all variable names {data-auto-animate=""}
+
+```{.R .numberLines data-id="naming-pattern" data-line-numbers="1,13|6,7"}
+simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_time)
+{
+  dxdt <- function(t, y, parms) {
+    list(
+      derivatives=c(
+        dSdt=-parms$beta*y[1]*y[2]/parms$population_size,
+        dIdt=parms$beta*y[1]*y[2]/parms$population_size - parms$gamma*y[2],
+        dRdt=parms$gamma*y[2]
+	    )
+     )
+  }
+
+  times <- seq(from = min_time, to = max_time, by = model_parms$timestep)
+  parms <- c(model_parms, population_size=sum(init_state))
+  ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
+}
 ```
 
 # Follow a style guide (tidyverse) {data-auto-animate=""}
@@ -154,35 +172,30 @@ simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_ti
     }
 ```
 
-# Summary
-
-:::::::::::::: {.columns}
-::: {.column width="50%"}
-```{.R .numberLines}
-  library(deSolve)
-
+#
+before
+```{.R .numberLines data-line-numbers=""}
   simulate_SIR <- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, N, method="lsoda", atol=1e-6, rtol=1e-06)
   {
-      dxdt <- function(t, y, parms) {
-	  list(
-	      derivatives=c(
-		  dSdt=-beta*y[1]*y[2]/N,
-		  dIdt=beta*y[1]*y[2]/N - gamma*y[2],
-		  dRdt=gamma*y[2]
-	      )
-	  )
-      }
-
-      times = seq(from = 0, to = Tf, by = timestep)
-      ode(c(S0, I0, 0), times, dxdt, method = "lsoda", atol, rtol)    
-  }
-```
-:::
-::: {.column width="50%"}
-```{.R .numberLines}
-simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_time) {
-      dxdt <- function(t, y, parms) {
+  dxdt <- function(t, y, parms) {
 	list(
+	  derivatives=c(
+	    dSdt=-beta*y[1]*y[2]/N,
+	    dIdt=beta*y[1]*y[2]/N - gamma*y[2],
+	    dRdt=gamma*y[2]
+      )
+	)
+  }
+  times <- seq(from = 0, to = Tf, by = timestep)
+  parms <- c(beta=beta, gamma=gamma, N=N)
+  ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
+}
+```
+after
+```{.R .numberLines data-line-numbers=""}
+simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_time) {
+  dxdt <- function(t, y, parms) {
+    list(
 	  derivatives = c(
 	    dSdt = -parms$beta * y[1] * y[2] / parms$population_size,
 	    dIdt = parms$beta * y[1] * y[2] / parms$population_size - parms$gamma * y[2],
@@ -190,16 +203,13 @@ simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_ti
 	  )
 	)
   }
-
-      times <- seq(from = min_time, to = max_time, by = model_parms$timestep)
-      parms <- c(model_parms, population_size = sum(init_state))
-      ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
-    }
+  times <- seq(from = min_time, to = max_time, by = model_parms$timestep)
+  parms <- c(model_parms, population_size = sum(init_state))
+  ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
+}
 ```
-:::
-::::::::::::::
 
-# An `SIR_init_state` class
+# Going the extra mile: an `SIR_init_state` class
 
 ```{.R .numberLines}
 print.SIR_init_state <- function(obj) {
