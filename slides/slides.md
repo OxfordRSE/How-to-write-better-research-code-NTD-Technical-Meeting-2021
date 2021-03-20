@@ -100,13 +100,13 @@ Learning to classify code as whiffing of a particular odour means you can apply 
 
 # Example # 1
 
-## What does this code do?
+## What is this function about ?
 
 ```R
 model <- function(start, stop, stoc, spec, dens,
                   b, i_mat, i_dur, ntype, ncov)
 {
-# do stuff
+  # function's body
 }
 ```
 
@@ -117,7 +117,7 @@ simulate <- function(time_start, time_stop, is_stochastic, mosquito_species,
                      mosquito_density, mosquito_to_human_prob, immunity_maternal,
 					 immunity_duration, net_type, net_coverage)
 {
-# do stuff
+  # function's body
 }
 ```
 
@@ -186,7 +186,10 @@ BednetParameters <- setClass("BednetParameters",
         slots=list(net_type="character",
         net_coverage="numeric"),
         validity = check)
-                                   
+```
+## Validity checking
+
+```R
 # fails
 bednet_parameters <- BednetParameters(
   			net_type = "net 3",
