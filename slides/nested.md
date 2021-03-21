@@ -1,6 +1,6 @@
 # Nested logic and complex conditionals {data-auto-animate=""}
 
-```{.R .numberLines data-id="nested-logic" data-line-numbers=""}
+```{.R .numberLines data-id="nested-logic" data-line-numbers="|3-14"}
 apply_vaccine_to_population <- function(population, nvaccines, threshold_age) {
     for (individual in population) {
         if (nvaccines > 0) {

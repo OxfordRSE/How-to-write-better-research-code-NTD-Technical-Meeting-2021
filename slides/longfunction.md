@@ -395,7 +395,6 @@ empirical_incubation_dist  <- function(x, date_of_onset, exposure, exposure_end 
   exposure      <- rlang::enquo(exposure)
   date_of_onset <- rlang::enquo(date_of_onset)
   exposure_end  <- rlang::enquo(exposure_end)
-  end_is_here   <- !is.null(rlang::get_expr(exposure_end))
 
   check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
 
