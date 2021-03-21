@@ -27,7 +27,7 @@ add_custom_target(
     slides ALL
     )
 
-add_dependencies(everything
+add_dependencies(slides
     revealjs
     example1
     longparam
