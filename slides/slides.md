@@ -19,6 +19,26 @@ Long after the project is "done", it is possible to
 
 This applies to other researchers... and *yourself* in 6 months!
 
+::: notes
+
+Software can be "good" in many ways, but in a research context, sustainability is
+the most important measure of software quality.
+
+sustainable software is...
+
+The reason sustainability is so important is because it is vital to
+reproducibility and transparancy.  If peers can't run your software in years after
+youyr paper is published, they will ahve a hard time reproduce your
+work. If your code is very difficult to understand, it's going to be
+very difficult for anyone to get insights into the actual
+implementation of your work. That can be very problematic, especially
+for results with societal impact.
+
+- It can contain Markdown
+- like this list
+
+:::
+
 ## Software is a research output
 
 It should be possible to build upon existing research software (**Extensibility**)
@@ -28,6 +48,17 @@ Typical hindrance to reusability and extensibility are hard-coded parameters and
 ```python
 file_handle = open("/Users/Sam/phdthesis/data/survey.dat")
 ```
+
+::: notes
+
+Software sustainability matters because, very much like a paper, software is a research output.
+
+There are few things in science that can enable future research as much as well-written research software. Whether it's the future of *your* research or somebody else's.
+
+Software is "soft", it's easy to share, it's easy to build upon - compared to a physical experimental setup for instance.
+
+If we consider research as a collective human effort, software plays a key role in enabling this collaboration.
+:::
 
 # Quality software accelerates your research
 
@@ -53,6 +84,14 @@ Open source, quality research software increases credibility and visibility of r
 -   Too few resources relevant to researchers.
 -   Lack of training.
 -   Assumption that the code will never be read.
+
+::: notes
+If research software quality has such a positive impact, which isn't everyone
+writing amazing software
+
+"my code will not be read": if you assume this, it's likely that it will not be.
+But if you write readable software, you code is more likely to be read (new students/post-docs, collaborators). Also, **you will read your code many times**!
+:::
 
 # It's not as difficult as you might think!
 
