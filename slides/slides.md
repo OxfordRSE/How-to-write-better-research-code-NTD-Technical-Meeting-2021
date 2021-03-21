@@ -129,11 +129,48 @@ Code smells are actually named (Fowler, 2000):
 * Freeloader
 * Refused bequest
 
+# Example 1: A long parameter list
+
 ## Why learn how to smell?
 
 Code smells have well-defined remedies.
 
 Learning to classify code as whiffing of a particular odour means you can apply these.
+
+# In-code documentation and style guides
+
+## Documentation helps today and tomorrow
+
+`roxygen2` syntax (`devtools` package)
+```R
+#' Add together two numbers
+#'
+#' @param x A number.
+#' @param y A number.
+#' @return The sum of \code{x} and \code{y}.
+#' @examples
+#' add(1, 1)
+#' add(10, 1)
+add <- function(x, y) {
+  x + y
+}
+```
+
+Tip: Write the documentation before writing the code!
+
+## Style guides standardise how code look
+
+A *style guide* is a set of rules describing how code should be formatted.
+
+ Lang      Guide example
+------   ----------------
+  R        tidyverse
+  Python   PEP8
+  C++      LLVM style guide
+  ...      ...
+
+Tools (`styler`, `black`, `clang-format`) can reformat code automagically.
+
 
 # How to improve your smell?
 
@@ -160,8 +197,6 @@ Learning to classify code as whiffing of a particular odour means you can apply 
   * Produces better quality software
   * You also learn other approaches
   * Github is a great ground for collaborative development
-
-## Style guides (another way to improve)
 
 ## Further exposure
 
