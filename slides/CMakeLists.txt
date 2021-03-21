@@ -38,6 +38,7 @@ add_dependencies(slides
 add_custom_target(
         revealjs COMMAND
 	${PANDOC} -t revealjs -s ${SLIDES_MD} -V revealjs-url=${REVEALJS_DIR}/reveal.js
+	--template ../pandoc-template.html
 	-V theme=oxrse -o ${SLIDES_HTML}
 	)
 
@@ -46,7 +47,7 @@ add_custom_target(
 	${PANDOC} ${EXAMPLE1_MD} -o ${EXAMPLE1_HTML}
 	-t revealjs 
 	-L ${CMAKE_CURRENT_SOURCE_DIR}/lua-filters/revealjs-codeblock/revealjs-codeblock.lua
-	--template ../lua-filters/revealjs-codeblock/template.html
+	--template ../pandoc-template.html
 	-V revealjs-url=${REVEALJS_DIR}/reveal.js
 	-V theme=oxrse
 	-V highlightjs
@@ -59,7 +60,7 @@ add_custom_target(
 	${PANDOC} ${LONGPARAM_MD} -o ${LONGPARAM_HTML}
 	-t revealjs 
 	-L ${CMAKE_CURRENT_SOURCE_DIR}/lua-filters/revealjs-codeblock/revealjs-codeblock.lua
-	--template ../lua-filters/revealjs-codeblock/template.html
+	--template ../pandoc-template.html
 	-V revealjs-url=${REVEALJS_DIR}/reveal.js
 	-V theme=oxrse
 	-V highlightjs
@@ -72,7 +73,7 @@ add_custom_target(
 	${PANDOC} ${NESTED_MD} -o ${NESTED_HTML}
 	-t revealjs 
 	-L ${CMAKE_CURRENT_SOURCE_DIR}/lua-filters/revealjs-codeblock/revealjs-codeblock.lua
-	--template ../lua-filters/revealjs-codeblock/template.html
+	--template ../pandoc-template.html
 	-V revealjs-url=${REVEALJS_DIR}/reveal.js
 	-V theme=oxrse
 	-V highlightjs
@@ -85,7 +86,7 @@ add_custom_target(
 	${PANDOC} ${LONGFUNCTION_MD} -o ${LONGFUNCTION_HTML}
 	-t revealjs 
 	-L ${CMAKE_CURRENT_SOURCE_DIR}/lua-filters/revealjs-codeblock/revealjs-codeblock.lua
-	--template ../lua-filters/revealjs-codeblock/template.html
+	--template ../pandoc-template.html
 	-V revealjs-url=${REVEALJS_DIR}/reveal.js
 	-V theme=oxrse
 	-V highlightjs
