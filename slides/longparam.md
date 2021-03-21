@@ -152,26 +152,6 @@ simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_ti
 }
 ```
 
-# Follow a style guide (tidyverse) {data-auto-animate=""}
-
-```{.R .numberLines data-id="code-animation" data-line-numbers=""}
-simulate_SIR <- function(init_state, model_parms, solver_parms, min_time, max_time) {
-      dxdt <- function(t, y, parms) {
-	list(
-	  derivatives = c(
-	    dSdt = -parms$beta * y[1] * y[2] / parms$population_size,
-	    dIdt = parms$beta * y[1] * y[2] / parms$population_size - parms$gamma * y[2],
-	    dRdt = parms$gamma * y[2]
-	  )
-	)
-  }
-
-      times <- seq(from = min_time, to = max_time, by = model_parms$timestep)
-      parms <- c(model_parms, population_size = sum(init_state))
-      ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
-    }
-```
-
 #
 before
 ```{.R .numberLines data-line-numbers=""}
