@@ -1,3 +1,11 @@
+---
+title: Practical approaches to writing better software
+author: 
+  - Ben Lambert
+  - Thibault Lestang
+affiliation: Department of Computer Science, University of Oxford
+---
+
 # Quality research software
 
 ## Software can be "good" in several ways
