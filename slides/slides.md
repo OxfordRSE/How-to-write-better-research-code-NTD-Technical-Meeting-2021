@@ -1,6 +1,6 @@
 ---
 title: Practical approaches to writing better software
-author: 
+author:
   - Ben Lambert
   - Thibault Lestang
 affiliation: Department of Computer Science, University of Oxford
@@ -8,17 +8,7 @@ affiliation: Department of Computer Science, University of Oxford
 
 # Quality research software
 
-## Software can be "good" in several ways
-
--   Performance
--   Usability
--   Readability
--   Maintainability / Extensibility
--   Potential for reuse
-
-These metrics don't necessarily go along with each other.
-
-## Firsm aim: sustainable software
+## First aim: sustainable software
 
 Long after the project is "done", it is possible to
 
@@ -31,7 +21,7 @@ This applies to other researchers... and *yourself* in 6 months!
 
 ## Software is a research output
 
-It should be poossible to build upon existing research software (**Extensibility**)
+It should be possible to build upon existing research software (**Extensibility**)
 
 Typical hindrance to reusability and extensibility are hard-coded parameters and file paths and low modularity.
 
@@ -39,7 +29,7 @@ Typical hindrance to reusability and extensibility are hard-coded parameters and
 file_handle = open("/Users/Sam/phdthesis/data/survey.dat")
 ```
 
-# Quality software accelerates research
+# Quality software accelerates your research
 
 ## Software that's easier to work with
 
