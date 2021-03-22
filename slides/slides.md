@@ -207,8 +207,41 @@ Tools (`styler`, `black`, `clang-format`) can reformat code automagically.
 
 ## Oxford Research Sofware Engineering
 
+![](./img/banner_ox_rse.svg ""){width=40%}
+
+Team of research software engineers in the Department of Computer Science.
+
+We work with teams across the University of Oxford:
+
+- Software engineering and developement
+- Supporting adoption of good practices
+- Software reviews
+- Training courses
+
+::: notes
+
 * Who are we?
 * What do we offer?
   * Example projects
   * Example courses
 * How to get in touch?
+
+:::
+
+## Oxford Research Sofware Engineering
+
+![](./img/banner_ox_rse.svg ""){width=40%}
+
+Visit us at [rse.ox.ac.uk](https://www.rse.ox.ac.uk/)!
+
+::: notes
+
+* Who are we?
+* What do we offer?
+  * Example projects
+  * Example courses
+* How to get in touch?
+
+:::
+
+# Thank you!
