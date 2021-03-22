@@ -175,34 +175,34 @@ Tools (`styler`, `black`, `clang-format`) can reformat code automagically.
 
 ## Empathy and writing
 
-* Steven Pinker argues that empathy is key to good academic writing
-* Even if writing solo, you can reduce the empathy gap with readers
-* You can ask a future you if they understand what you mean
-* (Better) you can ask others if they understand
+* Steven Pinker argues that empathy is key to good academic writing.
+* Even if writing solo, you can reduce the empathy gap with readers.
+* You can ask a future you if they understand what you mean.
+* (Better) you can ask others if they understand.
 
 ## Empathy and coding
 
-* Writing good software also requires empathy
-* You can also use the same approaches to lower the empathy gap
-* Repeatedly ask future you what they think about code and refactor
-* (Much much better) you can ask others if they understand
+* Writing good software also requires empathy.
+* You can also use the same approaches to lower the empathy gap.
+* Repeatedly ask future you what they think about code and refactor.
+* (Much much better) you can ask others if they understand.
 
 ## Coding collaboratively
 
-* There are a number of approaches to working collaboratively
-* Coding in pairs
-* One off code reviews between you and your colleagues
+* There are a number of approaches to working collaboratively.
+* Coding in pairs.
+* One off code reviews between you and your colleagues.
 * (Best) code collaboratively:
-  * Produces better quality software
-  * You also learn other approaches
-  * Github is a great ground for collaborative development
+  * Produces better quality software.
+  * You also learn other approaches.
+  * Github is a great ground for collaborative development.
 
 ## Further exposure
 
-* *Code Smells and Feels*, Jenny Byran, useR 2018
-* Martin Fowler, Kent Beck *Refactoring, 2nd edition* (Esp chapter 3)
-* "Better Codehub" badges on Github: semi-automated checking of software
-* Research software engineering groups
+* *Code Smells and Feels*, Jenny Byran, useR 2018.
+* Martin Fowler, Kent Beck *Refactoring, 2nd edition* (Esp chapter 3).
+* "Better Codehub" badges on Github: semi-automated checking of software.
+* Research software engineering groups.
 
 ## Oxford Research Sofware Engineering
 
@@ -210,12 +210,12 @@ Tools (`styler`, `black`, `clang-format`) can reformat code automagically.
 
 Team of research software engineers in the Department of Computer Science.
 
-We work with teams across the University of Oxford:
+We work with teams across the University of Oxford
 
-- Software engineering and developement
-- Supporting adoption of good practices
-- Software reviews
-- Training courses
+- Software engineering and development.
+- Supporting adoption of good practices.
+- Software reviews.
+- Training courses.
 
 ::: notes
 
