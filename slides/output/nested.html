@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>nested</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="../reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../reveal.js/dist/theme/oxrse.css" id="theme">
+  <link rel="stylesheet" href="../reveal.js/plugin/highlight/stackoverflow-light.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="nested-logic-and-complex-conditionals" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Nested logic and complex conditionals</h1>
+<pre data-id="nested-logic"><code class="R" data-line-numbers="|3-14">apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines &gt; 0) {
+            if (indiv["age"] &gt; threshold_age || indiv["isAtRisk"]) {
+                if (indiv["hasFirstJab"]) {
+                    inject_second_jab(indiv)
+                    nvaccines &lt;- nvaccines - 1
+                } else {
+                    inject_first_jab(indiv)
+                }
+            }
+        } else {
+            return("No more doses")
+        }
+    }
+}</code></pre>
+</section>
+<section id="if-you-can-return-early" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">If you can, return early</h1>
+<pre data-id="nested-logic"><code class="R" data-line-numbers="3,12-14">apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines &gt; 0) {
+            if (indiv["age"] &gt; threshold_age || indiv["isAtRisk"]) {
+                if (indiv["hasFirstJab"]) {
+                    inject_second_jab(indiv)
+                    nvaccines &lt;- nvaccines - 1
+                } else {
+                    inject_first_jab(indiv)
+                }
+            }
+        } else {
+            return("No more doses")
+        }
+    }
+}</code></pre>
+</section>
+<section id="if-you-can-return-early-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">If you can, return early</h1>
+<pre data-id="nested-logic"><code class="R" data-line-numbers="3|5-11">apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines == 0) { return("No more doses") }
+ 
+        if (indiv["age"] &gt; threshold_age || indiv["isAtRisk"]) {
+            if (indiv["hasFirstJab"]) {
+                inject_second_jab(indiv)
+                nvaccines &lt;- nvaccines - 1
+            } else {pp
+                inject_first_jab(indiv)
+            }
+        }
+}</code></pre>
+</section>
+<section id="if-you-can-skip-early" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">If you can, skip early</h1>
+<pre data-id="nested-logic"><code class="R" data-line-numbers="5">apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines == 0) { return("No more doses") }
+ 
+        if (indiv["age"] &gt; threshold_age || indiv["isAtRisk"]) {
+            if (indiv["hasFirstJab"]) {
+                inject_second_jab(indiv)
+                nvaccines &lt;- nvaccines - 1
+            } else {pp
+                inject_first_jab(indiv)
+            }
+        }
+}</code></pre>
+</section>
+<section id="if-you-can-skip-early-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">If you can, skip early</h1>
+<pre data-id="nested-logic"><code class="R" data-line-numbers="5|7-12">apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines == 0) { return("No more doses") }
+ 
+        if (indiv["age"] &gt; threshold_age || indiv["isAtRisk"]) next
+        
+        if (indiv["hasFirstJab"]) {
+            inject_second_jab(indiv)
+            nvaccines &lt;- nvaccines - 1
+        } else {
+            inject_first_jab(indiv)
+        }
+}
+</code></pre>
+</section>
+<section id="extract-condition-in-function" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Extract condition in function</h1>
+<pre data-id="nested-logic"><code class="R" data-line-numbers="5">apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines == 0) { return("No more doses") }
+ 
+        if (indiv["age"] &gt; threshold_age || indiv["isAtRisk"]) next
+        
+        if (indiv["hasFirstJab"]) {
+            inject_second_jab(indiv)
+            nvaccines &lt;- nvaccines - 1
+        } else {
+            inject_first_jab(indiv)
+        }
+}</code></pre>
+</section>
+<section id="extract-condition-in-function-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Extract condition in function</h1>
+<pre ><code class="R" data-line-numbers="1-4,10">eligible_to_vaccine &lt;- function(individual, threshold_age) {
+    in_target_age_group = indiv["age"] &gt; threshold_age
+    return(in_target_age_group || individual["isAtRisk"])
+}
+
+apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines == 0) { return("No more doses") }
+        
+        if (!eligible_to_vaccine(individual, threshold_age)) next
+        
+        if (indiv["hasFirstJab"]) {
+            inject_second_jab(individual)
+            nvaccines &lt;- nvaccines - 1
+        } else {
+            inject_first_jab(individual)
+        }
+    }</code></pre>
+</section>
+<section id="section" class="slide level1">
+<h1></h1>
+<p>before</p>
+<pre data-id="nested-logic"><code class="R" data-line-numbers="">apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines &gt; 0) {
+            if (indiv["age"] &gt; threshold_age || indiv["isAtRisk"]) {
+                if (indiv["hasFirstJab"]) {
+                    inject_second_jab(indiv)
+                    nvaccines &lt;- nvaccines - 1
+                } else {
+                    inject_first_jab(indiv)
+                }
+            }
+        } else {
+            return("No more doses")
+        }
+    }
+}</code></pre>
+<p>after</p>
+<pre ><code class="R" data-line-numbers="">apply_vaccine_to_population &lt;- function(population, nvaccines, threshold_age) {
+    for (individual in population) {
+        if (nvaccines == 0) { return("No more doses") }
+        
+        if (!eligible_to_vaccine(individual, threshold_age)) next
+        
+        if (indiv["hasFirstJab"]) {
+            inject_second_jab(individual)
+            nvaccines &lt;- nvaccines - 1
+        } else {
+            inject_first_jab(individual)
+        }
+    }
+}</code></pre>
+</section>
+<section id="recap-on-complex-ifelse-constructs" class="slide level1">
+<h1>Recap on complex if/else constructs</h1>
+<ul>
+<li>Return/continue early if you can.</li>
+<li>Extract complex conditions into a new function.</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="../reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="../reveal.js/plugin/notes/notes.js"></script>
+  <script src="../reveal.js/plugin/search/search.js"></script>
+  <script src="../reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="../reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: "100%",
+        height: "100%",
+
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
