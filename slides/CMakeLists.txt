@@ -8,19 +8,17 @@ find_path(SLIDES_DIR slides.md PATHS ${CMAKE_CURRENT_SOURCE_DIR} NO_DEFAULT_PATH
 find_path(REVEALJS_DIR reveal.js PATHS ${CMAKE_CURRENT_SOURCE_DIR} NO_DEFAULT_PATH)
 set(OUTPUT_DIR ../output)
 
-add_custom_target(
-    slides ALL
-    )
+add_custom_target(slides ALL)
 
 add_dependencies(slides
-    revealjs
+    intro_and_conclusion
     example1
     longparam
     nested
     longfunction)
 
 add_custom_target(
-    revealjs COMMAND
+    intro_and_conclusion COMMAND
     ${PANDOC} -s ${SLIDES_DIR}/slides.md -o ${OUTPUT_DIR}/slides.html
     -t revealjs
     --template ../pandoc-template.html
