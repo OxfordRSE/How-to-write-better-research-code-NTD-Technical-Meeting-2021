@@ -15,7 +15,7 @@ model <- function(start, stop, stoc, spec, dens,
 ```R
 simulate <- function(time_start, time_stop, is_stochastic, mosquito_species,
                      mosquito_density, mosquito_to_human_prob, immunity_maternal,
-					 immunity_duration, net_type, net_coverage)
+					           immunity_duration, net_type, net_coverage)
 {
   # function's body
 }
@@ -27,12 +27,12 @@ simulate <- function(time_start, time_stop, is_stochastic, mosquito_species,
 
 ​	Use descriptive variable names.
 
-## What are remaining problems with this?
+## What are the remaining problems with this?
 
 ```R
 simulate <- function(time_start, time_stop, is_stochastic, mosquito_species,
                      mosquito_density, mosquito_to_human_prob, immunity_maternal,
-					 immunity_duration, net_type, net_coverage)
+					           immunity_duration, net_type, net_coverage)
 {
   # function's body
 }
@@ -45,16 +45,17 @@ simulate <- function(time_start, time_stop, is_stochastic, mosquito_species,
 ## How can we make it better?
 
 ```R
-SimulationParameters <- setClass("SimulationParameters",
-                                  slots=list(time_start="numeric",
-       						      time_stop="numeric",
-       						      is_stochastic="logical"))
+SimulationParameters <- setClass(
+  "SimulationParameters",
+  slots=list(time_start="numeric",
+       			 time_stop="numeric",
+       			 is_stochastic="logical"))
 ```
 
 ## How can we make it better?
 
 ```R
-# doesn't work
+# fails
 simulation_parameters <- SimulationParameters(
     time_start=1990,
     time_stop=2018,
@@ -82,10 +83,11 @@ check <-function(object) {
     return("Net coverage must not be outside [0, 1].")
 }
 
-BednetParameters <- setClass("BednetParameters",
-        slots=list(net_type="character",
-        net_coverage="numeric"),
-        validity = check)
+BednetParameters <- setClass(
+  "BednetParameters",
+  slots=list(net_type="character",
+             net_coverage="numeric"),
+             validity = check))
 ```
 ## Validity checking
 
@@ -98,17 +100,18 @@ bednet_parameters <- BednetParameters(
 # fails
 bednet_parameters <- BednetParameters(
   			net_type = "net 2",
-        net_coverage = 100)
+        net_coverage = 50)
 ```
 
 ## Simulation object
 
 ```R
-Simulation <- setClass("Simulation",
-                        slots=list(simulation_parameters="SimulationParameters",
-                        bednet_parameters="BednetParameters",
-                        immunity_parameters="ImmunityParameters",
-                        mosquito_parameters="MosquitoParameters"))
+Simulation <- setClass(
+  "Simulation",
+  slots=list(simulation_parameters="SimulationParameters",
+             bednet_parameters="BednetParameters",
+             immunity_parameters="ImmunityParameters",
+             mosquito_parameters="MosquitoParameters"))
 
 # ...don't show how to do but could create a "run" method
 simulation <- Simulation(simulation_parameters=....)

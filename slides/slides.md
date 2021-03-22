@@ -12,10 +12,10 @@ affiliation: Department of Computer Science, University of Oxford
 
 Long after the project is "done", it is possible to
 
--   Compile/install/run the software (**Usability**)
--   Read and understand the code (**Readability**)
--   Update the program (**Maintainability**)
--   Reuse the code/program (**Reusability**)
+-   Compile/install/run the software (**Usability**).
+-   Read and understand the code (**Readability**).
+-   Update the program (**Maintainability**).
+-   Reuse the code/program (**Reusability**).
 
 This applies to other researchers... and *yourself* in 6 months!
 
@@ -41,7 +41,7 @@ for results with societal impact.
 
 ## Software is a research output
 
-It should be possible to build upon existing research software (**Extensibility**)
+It should be possible to build upon existing research software (**Extensibility**).
 
 Typical hindrance to reusability and extensibility are hard-coded parameters and file paths and low modularity.
 
@@ -99,7 +99,7 @@ But if you write readable software, you code is more likely to be read (new stud
 
 -   Choose descriptive names.
 -   Avoid nested logic (`for`/`if`/`else`).
--   Reduce the size of functions'parameter lists.
+-   Reduce the size of functions' parameter lists.
 -   Break long functions into smaller functions.
 -   Follow a style guide.
 
@@ -114,28 +114,27 @@ There are fewer ways to write bad software.
 
 *Code smells* are recognised patterns of code likely to hinder understanding and make it hard to work with.
 
-Code smells are actually named (Fowler, 2000):
-
--   Long Parameter List
--   Duplicated Code
--   Global Data
+Code smells are actually named (Fowler, 2000).
 
 ## Which one of these is not a real code smell?
 
-* Large class
-* Feature envy
-* Inappropriate intimacy
-* Angry quiche
+* Long Parameter List
+* Duplicated Code
+* Global Data
+* Large Class
+* Feature Envy
+* Inappropriate Intimacy
+* Angry Lovers
 * Freeloader
-* Refused bequest
-
-# Example 1: A long parameter list
+* Refused Bequest
 
 ## Why learn how to smell?
 
 Code smells have well-defined remedies.
 
 Learning to classify code as whiffing of a particular odour means you can apply these.
+
+# Example 1: A long parameter list
 
 # In-code documentation and style guides
 
