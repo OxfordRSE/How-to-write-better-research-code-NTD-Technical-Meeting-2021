@@ -5,8 +5,8 @@ project(NTDGoodSoftwareSlides)
 # Target to compile the slideshow, which requires Pandoc and LaTeX
 find_program(PANDOC pandoc)
 find_path(SLIDES_DIR slides.md PATHS ${CMAKE_CURRENT_SOURCE_DIR} NO_DEFAULT_PATH)
-find_path(REVEALJS_DIR reveal.js PATHS ${CMAKE_CURRENT_SOURCE_DIR} NO_DEFAULT_PATH)
-set(OUTPUT_DIR ../output)
+set(REVEALJS_DIR ../reveal.js)
+set(OUTPUT_DIR .)
 
 add_custom_target(slides ALL)
 
@@ -22,7 +22,7 @@ add_custom_target(
     ${PANDOC} -s ${SLIDES_DIR}/slides.md -o ${OUTPUT_DIR}/slides.html
     -t revealjs
     --template ../pandoc-template.html
-    -V revealjs-url=${REVEALJS_DIR}/reveal.js
+    -V revealjs-url=${REVEALJS_DIR}
     -V theme=oxrse)
 
 set(EXAMPLES example1 longparam nested longfunction)
@@ -38,7 +38,7 @@ foreach(example IN LISTS EXAMPLES)
 	-t revealjs
 	-L ${REVEALJS_CODEBLOCK_FILTER}
 	--template ../pandoc-template.html
-	-V revealjs-url=${REVEALJS_DIR}/reveal.js
+	-V revealjs-url=${REVEALJS_DIR}
 	-V theme=oxrse
 	-V highlightjs
 	-V highlightjs-theme:stackoverflow-light
