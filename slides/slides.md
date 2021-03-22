@@ -200,10 +200,10 @@ Tools (`styler`, `black`, `clang-format`) can reformat code automagically.
 
 ## Further exposure
 
-* Reading references:
-* Video references:
+* *Code Smells and Feels*, Jenny Byran, useR 2018
+* Martin Fowler, Kent Beck *Refactoring, 2nd edition* (Esp chapter 3)
 * "Better Codehub" badges on Github: semi-automated checking of software
-* Courses offered by OxRSE (see below)
+* Research software engineering groups
 
 ## Oxford Research Sofware Engineering
 
