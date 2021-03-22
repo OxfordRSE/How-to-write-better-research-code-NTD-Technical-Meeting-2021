@@ -1,3 +1,20 @@
+# Long methods and why they occur?
+
+* A long method is simply one with many lines of code. "Generally, any method longer than ten lines should make you start asking questions", **Refactoring Guru**.
+* Why do they occur?
+  * It's easier to write code than it is to read it.
+  * When new functionality is required, it can feel easier to add to existing methods rather than create new ones.
+
+# What problems do they cause?
+
+The longer a function is
+
+* The harder it is to understand it.
+
+* The harder it is to maintain.
+* The harder it is to test.
+* The more likely it will contain duplicate code.
+
 # A long function
 
 ```{.R .numberLines data-id="extract-function" data-line-numbers=""}
