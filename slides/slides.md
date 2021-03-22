@@ -81,6 +81,7 @@ Open source, quality research software increases credibility and visibility of r
 ## Hurdles in the way of improving software quality
 
 -   Lack of exposure to good examples.
+-   Misconception of what "good code" looks like. "This code runs really really fast: it must be great! (Although I can't understand it.)"
 -   Too few resources relevant to researchers.
 -   Lack of training.
 -   Assumption that the code will never be read.
@@ -157,7 +158,7 @@ add <- function(x, y) {
 
 Tip: Write the documentation before writing the code!
 
-## Style guides standardise how code look
+## Style guides standardise how code looks
 
 A *style guide* is a set of rules describing how code should be formatted.
 
