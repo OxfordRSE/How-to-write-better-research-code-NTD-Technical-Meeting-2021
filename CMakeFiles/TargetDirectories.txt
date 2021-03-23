@@ -1,0 +1,8 @@
+/home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/edit_cache.dir
+/home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/longfunction.dir
+/home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/longparam.dir
+/home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/rebuild_cache.dir
+/home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/example1.dir
+/home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/intro_and_conclusion.dir
+/home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/nested.dir
+/home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/slides.dir
