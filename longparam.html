@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>longparam</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/dist/theme/oxrse.css" id="theme">
+  <link rel="stylesheet" href="reveal.js/plugin/highlight/stackoverflow-light.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="an-sir-simulation" class="slide level1">
+<h1>An SIR simulation</h1>
+<pre id="initcode"><code data-line-numbers="|3">  library(deSolve)
+
+  simulate_SIR &lt;- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, N, method="lsoda", atol=1e-6, rtol=1e-06)
+  {
+      dxdt &lt;- function(t, y, parms) {
+      list(
+          derivatives=c(
+          dSdt=-beta*y[1]*y[2]/N,
+          dIdt=beta*y[1]*y[2]/N - gamma*y[2],
+          dRdt=gamma*y[2]
+          )
+      )
+      }
+
+      times &lt;- seq(from = 0, to = Tf, by = timestep)
+      parms &lt;- c(beta=beta, gamma=gamma, N=N)
+      ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
+  }</code></pre>
+</section>
+<section id="the-population-size-doesnt-have-to-be-passed" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">The population size doesn’t have to be passed</h1>
+<pre data-id="redundant-param"><code class="R" data-line-numbers="3">  library(deSolve)
+
+  simulate_SIR &lt;- function(N, S0, I0, R0, Tstart, Tf, timestep, gamma, beta, method="lsoda", atol=1e-6, rtol=1e-06)
+  {
+      dxdt &lt;- function(t, y, parms) {
+      list(
+          derivatives=c(
+          dSdt=-beta*y[1]*y[2]/N,
+          dIdt=beta*y[1]*y[2]/N - gamma*y[2],
+          dRdt=gamma*y[2]
+          )
+      )
+      }
+
+      times &lt;- seq(from = 0, to = Tf, by = timestep)
+      parms &lt;- c(beta=beta, gamma=gamma, N=N)
+      ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
+  }</code></pre>
+</section>
+<section id="the-population-size-doesnt-have-to-be-passed-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">The population size doesn’t have to be passed</h1>
+<pre data-id="redundant-param"><code class="R" data-line-numbers="5">  library(deSolve)
+
+  simulate_SIR &lt;- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, method="lsoda", atol=1e-6, rtol=1e-06)
+  {
+      N &lt;- S0 + I0 + R0
+      dxdt &lt;- function(t, y, parms) {
+      list(
+          derivatives=c(
+          dSdt=-beta*y[1]*y[2]/N,
+          dIdt=beta*y[1]*y[2]/N - gamma*y[2],
+          dRdt=gamma*y[2]
+          )
+      )
+      }
+
+      times &lt;- seq(from = 0, to = Tf, by = timestep)
+      parms &lt;- c(beta=beta, gamma=gamma, N=N)
+      ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
+  }</code></pre>
+</section>
+<section id="grouping-parameters-that-travel-together" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Grouping parameters that travel together</h1>
+<pre data-id="group-parameters"><code class="R" data-line-numbers="1">simulate_SIR &lt;- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, method="lsoda", atol=1e-6, rtol=1e-06)
+  {
+    N &lt;- S0 + I0 + R0
+    dxdt &lt;- function(t, y, parms) {
+      list(
+          derivatives=c(
+          dSdt=-beta*y[1]*y[2]/N,
+          dIdt=beta*y[1]*y[2]/N - gamma*y[2],
+          dRdt=gamma*y[2]
+          )
+      )
+    }
+
+  times &lt;- seq(from = 0, to = Tf, by = timestep)
+  parms &lt;- c(beta=beta, gamma=gamma, N=N)
+  ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
+}</code></pre>
+</section>
+<section id="grouping-parameters-that-travel-together-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Grouping parameters that travel together</h1>
+<pre data-id="group-parameters"><code class="R" data-line-numbers="1|13|14,15">simulate_SIR &lt;- function(init_state, model_parms, solver_parms, Tstart, Tf)
+{
+  dxdt &lt;- function(t, y, parms) {
+    list(
+        derivatives=c(
+        dSdt=-parms$beta*y[1]*y[2]/parms$N,
+        dIdt=parms$beta*y[1]*y[2]/parms$N - parms$gamma*y[2],
+        dRdt=parms$gamma*y[2]
+        )
+    )
+  }
+
+  times &lt;- seq(from = Tstar, to = Tf, by = model_parms$timestep)
+  parms &lt;- c(model_parms, N=sum(init_state))
+  ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
+}</code></pre>
+</section>
+<section id="a-common-pattern-for-all-variable-names" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">A common pattern for all variable names</h1>
+<pre data-id="naming-pattern"><code class="R" data-line-numbers="1,13|6,7">simulate_SIR &lt;- function(init_state, model_parms, solver_parms, Tstart, Tf)
+{
+  dxdt &lt;- function(t, y, parms) {
+    list(
+      derivatives=c(
+        dSdt=-parms$beta*y[1]*y[2]/parms$N,
+        dIdt=parms$beta*y[1]*y[2]/parms$N - parms$gamma*y[2],
+        dRdt=parms$gamma*y[2]
+        )
+     )
+  }
+
+  times &lt;- seq(from = Tstart, to = Tf, by = model_parms$timestep)
+  parms &lt;- c(model_parms, N=sum(init_state))
+  ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
+}</code></pre>
+</section>
+<section id="a-common-pattern-for-all-variable-names-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">A common pattern for all variable names</h1>
+<pre data-id="naming-pattern"><code class="R" data-line-numbers="1,13|6,7">simulate_SIR &lt;- function(init_state, model_parms, solver_parms, min_time, max_time)
+{
+  dxdt &lt;- function(t, y, parms) {
+    list(
+      derivatives=c(
+        dSdt=-parms$beta*y[1]*y[2]/parms$population_size,
+        dIdt=parms$beta*y[1]*y[2]/parms$population_size - parms$gamma*y[2],
+        dRdt=parms$gamma*y[2]
+        )
+     )
+  }
+
+  times &lt;- seq(from = min_time, to = max_time, by = model_parms$timestep)
+  parms &lt;- c(model_parms, population_size=sum(init_state))
+  ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
+}</code></pre>
+</section>
+<section id="section" class="slide level1">
+<h1></h1>
+<p>before</p>
+<pre ><code class="R" data-line-numbers="">simulate_SIR &lt;- function(S0, I0, R0, Tstart, Tf, timestep, gamma, beta, N, method="lsoda", atol=1e-6, rtol=1e-06)
+  {
+  dxdt &lt;- function(t, y, parms) {
+    list(
+      derivatives=c(
+        dSdt=-beta*y[1]*y[2]/N,
+        dIdt=beta*y[1]*y[2]/N - gamma*y[2],
+        dRdt=gamma*y[2]
+      )
+    )
+  }
+  times &lt;- seq(from = 0, to = Tf, by = timestep)
+  parms &lt;- c(beta=beta, gamma=gamma, N=N)
+  ode(c(S0, I0, 0), times, dxdt, parms, method, atol, rtol)
+}</code></pre>
+<p>after</p>
+<pre ><code class="R" data-line-numbers="">simulate_SIR &lt;- function(init_state, model_parms, solver_parms, min_time, max_time) {
+  dxdt &lt;- function(t, y, parms) {
+    list(
+      derivatives = c(
+        dSdt = -parms$beta * y[1] * y[2] / parms$population_size,
+        dIdt = parms$beta * y[1] * y[2] / parms$population_size - parms$gamma * y[2],
+        dRdt = parms$gamma * y[2]
+      )
+    )
+  }
+  times &lt;- seq(from = min_time, to = max_time, by = model_parms$timestep)
+  parms &lt;- c(model_parms, population_size = sum(init_state))
+  ode(init_state, times, dxdt, parms, solver_parms$method, solver_parms$atol, solver_parms$rtol)
+}</code></pre>
+</section>
+<section id="recap" class="slide level1">
+<h1>Recap</h1>
+<p>A short list of parameters make the scope of a function clearer at first glance.</p>
+<ul>
+<li>Identify parameters that travel together (“data clumps”).</li>
+<li>Group these parameters into a common data structure (vector, list or class).</li>
+<li>Choose descriptive names.</li>
+<li>Consider splitting the function into smaller specialized functions.</li>
+</ul>
+</section>
+<section id="going-the-extra-mile-an-sir_init_state-class" class="slide level1">
+<h1>Going the extra mile: an <code>SIR_init_state</code> class</h1>
+<pre ><code class="R" data-line-numbers="">print.SIR_init_state &lt;- function(obj) {
+  print("Initial state for an SIR model with:")
+  print(sprintf("   S0 = %f", obj$S))
+  print(sprintf("   I0 = %f", obj$I))
+  print(sprintf("   R0 = %f", obj$R))
+}
+
+
+init_state &lt;- list(S = 998, I = 2, R = 0)
+class(init_state) &lt;- "SIR_init_state"
+
+print(init_state)</code></pre>
+</section>
+    </div>
+  </div>
+
+  <script src="reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="reveal.js/plugin/notes/notes.js"></script>
+  <script src="reveal.js/plugin/search/search.js"></script>
+  <script src="reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: "100%",
+        height: "100%",
+
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

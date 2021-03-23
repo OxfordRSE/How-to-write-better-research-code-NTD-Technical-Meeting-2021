@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>longfunction</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/dist/theme/oxrse.css" id="theme">
+  <link rel="stylesheet" href="reveal.js/plugin/highlight/stackoverflow-light.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="long-methods-and-why-they-occur" class="slide level1">
+<h1>Long methods and why they occur?</h1>
+<ul>
+<li>A long method is simply one with many lines of code. “Generally, any method longer than ten lines should make you start asking questions”, <strong>Refactoring Guru</strong>.</li>
+<li>Why do they occur?
+<ul>
+<li>It’s easier to write code than it is to read it.</li>
+<li>When new functionality is required, it can feel easier to add to existing methods rather than create new ones.</li>
+</ul></li>
+</ul>
+</section>
+<section id="what-problems-do-they-cause" class="slide level1">
+<h1>What problems do they cause?</h1>
+<p>The longer a function is</p>
+<ul>
+<li><p>The harder it is to understand it.</p></li>
+<li><p>The harder it is to maintain.</p></li>
+<li><p>The harder it is to test.</p></li>
+<li><p>The more likely it will contain duplicate code.</p></li>
+</ul>
+</section>
+<section id="a-long-function" class="slide level1">
+<h1>A long function</h1>
+<pre data-id="extract-function"><code class="R" data-line-numbers="">empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+  # ...
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+
+  # Make sure that all the columns actually exist
+  cols &lt;- c(rlang::quo_text(date_of_onset),
+            rlang::quo_text(exposure),
+            rlang::quo_text(exposure_end))
+  cols &lt;- cols[cols != "NULL"]
+  if (!all(cols %in% names(x))) {
+    msg  &lt;- "%s is not a column in %s"
+    cols &lt;- cols[!cols %in% names(x)]
+    msg  &lt;- sprintf(msg, cols, deparse(substitute(x)))
+    stop(paste(msg, collapse = "\n  "))
+  }
+  
+  # Grab the values from the columns
+  doo   &lt;- dplyr::pull(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+  
+  # ...</code></pre>
+</section>
+<section id="extracting-a-function" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Extracting a function</h1>
+<pre data-id="extract-function"><code class="R" data-line-numbers="5-9|11-21">empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+  # ...
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+
+  # Make sure that all the columns actually exist
+  cols &lt;- c(rlang::quo_text(date_of_onset),
+            rlang::quo_text(exposure),
+            rlang::quo_text(exposure_end))
+  cols &lt;- cols[cols != "NULL"]
+  if (!all(cols %in% names(x))) {
+    msg  &lt;- "%s is not a column in %s"
+    cols &lt;- cols[!cols %in% names(x)]
+    msg  &lt;- sprintf(msg, cols, deparse(substitute(x)))
+    stop(paste(msg, collapse = "\n  "))
+  }
+  
+  # Grab the values from the columns
+  doo   &lt;- dplyr::pull(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+  
+  # ...</code></pre>
+</section>
+<section id="extracting-a-function-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Extracting a function</h1>
+<pre data-id="extract-function"><code class="R" data-line-numbers="1-12, 24-25|24">check_all_columns_exist &lt;- function(x, date_of_onset, exposure, exposure_end) {
+  cols &lt;- c(rlang::quo_text(date_of_onset),
+            rlang::quo_text(exposure),
+            rlang::quo_text(exposure_end))
+  cols &lt;- cols[cols != "NULL"]
+  if (!all(cols %in% names(x))) {
+    msg  &lt;- "%s is not a column in %s"
+    cols &lt;- cols[!cols %in% names(x)]
+    msg  &lt;- sprintf(msg, cols, deparse(substitute(x)))
+    stop(paste(msg, collapse = "\n  "))
+  }
+}
+
+empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+  # ...
+  
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+
+  # Make sure that all the columns actually exist
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- dplyr::pull(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)</code></pre>
+</section>
+<section id="extracting-a-function-2" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Extracting a function</h1>
+<pre data-id="extract-function"><code class="R" data-line-numbers="">check_all_columns_exist &lt;- function(x, date_of_onset, exposure, exposure_end) {
+  cols &lt;- c(rlang::quo_text(date_of_onset),
+            rlang::quo_text(exposure),
+            rlang::quo_text(exposure_end))
+  cols &lt;- cols[cols != "NULL"]
+  if (!all(cols %in% names(x))) {
+    msg  &lt;- "%s is not a column in %s"
+    cols &lt;- cols[!cols %in% names(x)]
+    msg  &lt;- sprintf(msg, cols, deparse(substitute(x)))
+    stop(paste(msg, collapse = "\n  "))
+  }
+}
+
+empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+  # ...
+  
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- dplyr::pull(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)</code></pre>
+</section>
+<section id="extracting-another-function" class="slide level1" data-auto-animate="" data-auto-animate-unmatched="false">
+<h1 data-auto-animate="" data-auto-animate-unmatched="false">Extracting a(nother) function</h1>
+<pre data-id="extract-another-function"><code class="R" data-line-numbers="13-20|14,17-20">empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+  # ...
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- dplyr::pull(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+
+  if (!inherits(doo, "Date")) {
+    msg &lt;- "date_of_onset must be a column of Dates. I found a column of class %s"
+    stop(sprintf(msg, paste(class(doo), collapse = ", ")))
+  }
+
+  if (end_is_here) {
+    # ...</code></pre>
+</section>
+<section id="extracting-another-function-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Extracting a(nother) function</h1>
+<pre data-id="extract-another-function"><code class="R" data-line-numbers="1-10,25">get_date_of_onset_value &lt;- function(data, date_of_onset_var){
+    doo   &lt;- dplyr::pull(x, !! date_of_onset)
+  
+    if (!inherits(doo, "Date")) {
+    msg &lt;- "date_of_onset must be a column of Dates. I found a column of class %s"
+    stop(sprintf(msg, paste(class(doo), collapse = ", ")))
+    }
+
+    return(doo)
+  }
+  
+empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+  # ...
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- get_date_of_onset_value(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+
+  if (end_is_here) {
+    # ...</code></pre>
+</section>
+<section id="exctracting-the-construction-of-exposures" class="slide level1" data-auto-animate="" data-auto-animate-unmatched="false">
+<h1 data-auto-animate="" data-auto-animate-unmatched="false">Exctracting the construction of exposures</h1>
+<pre data-id="extract-exposures"><code class="R" data-line-numbers="11-22">empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  
+  # ...
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- get_date_of_onset_value(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+
+  if (end_is_here) {
+    # We need to create the list for each date
+    if (is.list(expos) || !inherits(expos, "Date")) {
+      stop("if exposure_end is specified, then exposure must be a vector of Dates")
+    }
+    e     &lt;- expos
+    ee    &lt;- dplyr::pull(x, !! exposure_end)
+    expos &lt;- vector(mode = "list", length = length(e))
+    for (i in seq(expos)) {
+      expos[[i]] &lt;- seq(from = e[i], to = ee[i], by = "1 day")
+    }
+  }
+
+  y &lt;- compute_incubation(doo, expos)
+  
+  # ...</code></pre>
+</section>
+<section id="exctracting-the-construction-of-exposures-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Exctracting the construction of exposures</h1>
+<pre data-id="extract-exposures"><code class="R" data-line-numbers="1-13,25|2">exposure_for_each_date &lt;- function(expos, data) {
+  # We need to create the list for each date
+  if (is.list(expos) || !inherits(expos, "Date")) {
+    stop("if exposure_end is specified, then exposure must be a vector of Dates")
+  }
+  e     &lt;- expos
+  e    &lt;- dplyr::pull(data, !! exposure_end)
+  expos &lt;- vector(mode = "list", length = length(e))
+  for (i in seq(expos)) {
+     expos[[i]] &lt;- seq(from = e[i], to = ee[i], by = "1 day")
+  }
+  return(expos)
+}
+
+empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  
+  # ...
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- get_date_of_onset_value(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+
+  if (end_is_here) expos &lt;- exposure_for_each_date(expos, x)
+
+  y &lt;- compute_incubation(doo, expos)
+  
+  # ...</code></pre>
+</section>
+<section id="the-end-isnt-quite-here" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">The end isn’t quite here</h1>
+<pre data-id="end-isnt-here"><code class="R" data-line-numbers="10,18">empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+
+  # ...
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- get_date_of_onset_value(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+
+  if (end_is_here) expos &lt;- exposure_for_each_date(expos, x)
+
+  y &lt;- compute_incubation(doo, expos)</code></pre>
+</section>
+<section id="the-end-isnt-quite-here-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">The end isn’t quite here</h1>
+<pre data-id="end-isnt-here"><code class="R" data-line-numbers="17,18">empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+
+  # ...
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- get_date_of_onset_value(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+  if (end_is_here) expos &lt;- exposure_for_each_date(expos, x)
+
+  y &lt;- compute_incubation(doo, expos)</code></pre>
+</section>
+<section id="the-end-isnt-quite-here-2" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">The end isn’t quite here</h1>
+<pre data-id="end-isnt-here"><code class="R" data-line-numbers="1-5,23">end_of_exposure &lt;- function(exposure_end){
+  return(
+    !is.null(rlang::get_expr(exposure_end))
+  )
+}
+
+empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+
+  # ...
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- get_date_of_onset_value(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+  
+  if (end_of_exposure(exposure_end)) expos &lt;- exposure_for_each_date(expos, x)
+
+  y &lt;- compute_incubation(doo, expos)</code></pre>
+</section>
+<section id="exctracting-the-dataframe-validation" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Exctracting the dataframe validation</h1>
+<pre data-id="dataframe-validation"><code class="R" data-line-numbers="2-9">empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+  #error checking
+  if (!is.data.frame(x)) {
+    stop("x is not a data.frame")
+  }
+
+  if (ncol(x) == 0L) {
+    stop("x has no columns")
+  }
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  
+  # ...</code></pre>
+</section>
+<section id="exctracting-the-dataframe-validation-1" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Exctracting the dataframe validation</h1>
+<pre data-id="dataframe-validation"><code class="R" data-line-numbers="1-10,14">check_if_valid_dataframe &lt;- function(data) {
+
+  if (!is.data.frame(x)) {
+    stop("x is not a data.frame")
+  }
+
+  if (ncol(x) == 0L) {
+    stop("x has no columns")
+  }
+}
+
+empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+
+  check_if_valid_dataframe(x)
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+  end_is_here   &lt;- !is.null(rlang::get_expr(exposure_end))
+  
+  # ...</code></pre>
+</section>
+<section id="summary" class="slide level1" data-auto-animate="">
+<h1 data-auto-animate="">Summary</h1>
+<pre data-id="full-function"><code class="R" data-line-numbers="">empirical_incubation_dist  &lt;- function(x, date_of_onset, exposure, exposure_end = NULL) {
+
+  check_valid_dataframe(x)
+
+  # prepare column names for transfer
+  exposure      &lt;- rlang::enquo(exposure)
+  date_of_onset &lt;- rlang::enquo(date_of_onset)
+  exposure_end  &lt;- rlang::enquo(exposure_end)
+
+  check_all_columns_exist(x, date_of_onset, exposure, exposure_end)
+
+  # Grab the values from the columns
+  doo   &lt;- get_date_of_onset_value(x, !! date_of_onset)
+  expos &lt;- dplyr::pull(x, !! exposure)
+
+  if (end_of_exposure(exposure_end)) expos &lt;- exposure_for_each_date(expos, x)
+
+  y &lt;- compute_incubation(doo, expos)
+
+  # check if incubation period is below 0
+  if (any(y$incubation_period &lt; 0)) {
+    warning("negative incubation periods in data!")
+  }
+
+  return(y)
+}</code></pre>
+</section>
+<section id="avoiding-long-functions" class="slide level1" style="position: relative; left: 0px">
+<h1 style="position: relative; left: 0px">Avoiding long functions</h1>
+<p>Think as someone who’s looking at the code for the first time.</p>
+<p>It must be clear <em>what</em> the function does, no matter <em>how</em> it does it.</p>
+<ul>
+<li>Look for comments.</li>
+<li>Extract blocks of logic into separate (nested) functions.</li>
+<li>Use descriptive function names instead of comments.</li>
+<li>Extract reusable code!</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="reveal.js/dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="reveal.js/plugin/notes/notes.js"></script>
+  <script src="reveal.js/plugin/search/search.js"></script>
+  <script src="reveal.js/plugin/zoom/zoom.js"></script>
+  <script src="reveal.js/plugin/highlight/highlight.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: "100%",
+        height: "100%",
+
+        // reveal.js plugins
+        plugins: [
+          RevealHighlight,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
