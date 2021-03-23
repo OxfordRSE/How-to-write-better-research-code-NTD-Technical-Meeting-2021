@@ -26,7 +26,7 @@ add_custom_target(
     -V theme=oxrse)
 
 set(EXAMPLES example1 longparam nested longfunction)
-set(REVEALJS_CODEBLOCK_FILTER ${CMAKE_CURRENT_SOURCE_DIR}/lua-filters/revealjs-codeblock/revealjs-codeblock.lua)
+set(REVEALJS_CODEBLOCK_FILTER ../revealjs-codeblock.lua)
 
 foreach(example IN LISTS EXAMPLES)
     set(MD_FILE ${SLIDES_DIR}/${example}.md)
