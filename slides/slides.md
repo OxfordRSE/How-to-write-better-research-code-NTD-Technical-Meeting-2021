@@ -1,5 +1,5 @@
 ---
-title: Practical approaches to writing better software
+title: Practical approaches to writing sustainable research software
 author:
   - Ben Lambert
   - Thibault Lestang
