@@ -6,7 +6,7 @@ project(NTDGoodSoftwareSlides)
 find_program(PANDOC pandoc)
 find_path(SLIDES_DIR slides.md PATHS ${CMAKE_CURRENT_SOURCE_DIR} NO_DEFAULT_PATH)
 find_path(REVEALJS_DIR reveal.js PATHS ${CMAKE_CURRENT_SOURCE_DIR} NO_DEFAULT_PATH)
-set(OUTPUT_DIR ../output)
+set(OUTPUT_DIR .)
 
 add_custom_target(slides ALL)
 
