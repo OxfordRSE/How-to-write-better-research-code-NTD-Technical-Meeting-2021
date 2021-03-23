@@ -53,19 +53,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/tlestang/.pyenv/versions/3.8.1/envs/pybamm/lib/python3.8/site-packages/cmake/data/bin/cmake
+CMAKE_COMMAND = /home/thibault/.local/lib/python3.7/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /home/tlestang/.pyenv/versions/3.8.1/envs/pybamm/lib/python3.8/site-packages/cmake/data/bin/cmake -E rm -f
+RM = /home/thibault/.local/lib/python3.7/site-packages/cmake/data/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tlestang/repos/NTD_talk_2021/slides
+CMAKE_SOURCE_DIR = /home/thibault/repos/NTDMC_tech_meeting_2021/slides
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tlestang/repos/NTD_talk_2021/slides/output
+CMAKE_BINARY_DIR = /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output
 
 # Utility rule file for slides.
 
@@ -86,6 +86,6 @@ CMakeFiles/slides.dir/clean:
 .PHONY : CMakeFiles/slides.dir/clean
 
 CMakeFiles/slides.dir/depend:
-	cd /home/tlestang/repos/NTD_talk_2021/slides/output && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tlestang/repos/NTD_talk_2021/slides /home/tlestang/repos/NTD_talk_2021/slides /home/tlestang/repos/NTD_talk_2021/slides/output /home/tlestang/repos/NTD_talk_2021/slides/output /home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/slides.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/thibault/repos/NTDMC_tech_meeting_2021/slides /home/thibault/repos/NTDMC_tech_meeting_2021/slides /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output/CMakeFiles/slides.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/slides.dir/depend
 

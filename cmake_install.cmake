@@ -1,4 +1,4 @@
-# Install script for directory: /home/tlestang/repos/NTD_talk_2021/slides
+# Install script for directory: /home/thibault/repos/NTDMC_tech_meeting_2021/slides
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/tlestang/repos/NTD_talk_2021/slides/output/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/thibault/repos/NTDMC_tech_meeting_2021/slides/output/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

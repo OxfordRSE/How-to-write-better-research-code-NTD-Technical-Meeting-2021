@@ -53,19 +53,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/tlestang/.pyenv/versions/3.8.1/envs/pybamm/lib/python3.8/site-packages/cmake/data/bin/cmake
+CMAKE_COMMAND = /home/thibault/.local/lib/python3.7/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /home/tlestang/.pyenv/versions/3.8.1/envs/pybamm/lib/python3.8/site-packages/cmake/data/bin/cmake -E rm -f
+RM = /home/thibault/.local/lib/python3.7/site-packages/cmake/data/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tlestang/repos/NTD_talk_2021/slides
+CMAKE_SOURCE_DIR = /home/thibault/repos/NTDMC_tech_meeting_2021/slides
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tlestang/repos/NTD_talk_2021/slides/output
+CMAKE_BINARY_DIR = /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output
 
 # Utility rule file for intro_and_conclusion.
 
@@ -73,7 +73,7 @@ CMAKE_BINARY_DIR = /home/tlestang/repos/NTD_talk_2021/slides/output
 include CMakeFiles/intro_and_conclusion.dir/progress.make
 
 CMakeFiles/intro_and_conclusion:
-	/usr/bin/pandoc -s /home/tlestang/repos/NTD_talk_2021/slides/slides.md -o ./slides.html -t revealjs --template ../pandoc-template.html -V revealjs-url=reveal.js -V theme=oxrse
+	/usr/bin/pandoc -s /home/thibault/repos/NTDMC_tech_meeting_2021/slides/slides.md -o ./slides.html -t revealjs --template ../pandoc-template.html -V revealjs-url=reveal.js -V theme=oxrse
 
 intro_and_conclusion: CMakeFiles/intro_and_conclusion
 intro_and_conclusion: CMakeFiles/intro_and_conclusion.dir/build.make
@@ -90,6 +90,6 @@ CMakeFiles/intro_and_conclusion.dir/clean:
 .PHONY : CMakeFiles/intro_and_conclusion.dir/clean
 
 CMakeFiles/intro_and_conclusion.dir/depend:
-	cd /home/tlestang/repos/NTD_talk_2021/slides/output && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tlestang/repos/NTD_talk_2021/slides /home/tlestang/repos/NTD_talk_2021/slides /home/tlestang/repos/NTD_talk_2021/slides/output /home/tlestang/repos/NTD_talk_2021/slides/output /home/tlestang/repos/NTD_talk_2021/slides/output/CMakeFiles/intro_and_conclusion.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/thibault/repos/NTDMC_tech_meeting_2021/slides /home/thibault/repos/NTDMC_tech_meeting_2021/slides /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output /home/thibault/repos/NTDMC_tech_meeting_2021/slides/output/CMakeFiles/intro_and_conclusion.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/intro_and_conclusion.dir/depend
 
